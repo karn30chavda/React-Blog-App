@@ -1,13 +1,40 @@
-function App() {
-  console.log(import.meta.env.VITE_APPWRITE_URL); // Log the environment variable
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Outlet } from "react-router-dom";
+import authService from "./appwrite/auth";
+import { Footer, Header } from "./components";
+import { login, logout } from "./features/authSlice";
 
-  return (
-    <>
-      <div className="text-3xl font-bold rounded-xl text-center m-4 p-4 bg-gray-600 text-white">
-        Welcome to React Mega Project
+function App() {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    authService
+      .getCurrentUser()
+      .then((userData) => {
+        if (userData) {
+          dispatch(login({ userData }));
+        } else {
+          dispatch(logout());
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  return !loading ? (
+    <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
+      <div className="w-full block">
+        <Header />
+        <main>
+          <div className="bg-green-500 text-white p-4 text-xl font-bold text-center">
+            Todo <Outlet />
+          </div>
+        </main>
+        <Footer />
       </div>
-    </>
-  );
+    </div>
+  ) : null;
 }
 
 export default App;
