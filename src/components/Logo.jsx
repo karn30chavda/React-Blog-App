@@ -1,5 +1,5 @@
 function Logo() {
-  return <div>Logo</div>;
+  return <div className="font-bold text-xl text-">Karan.dev</div>;
 }
 
 export default Logo;

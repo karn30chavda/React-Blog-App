@@ -27,7 +27,7 @@ function App() {
       <div className="w-full block">
         <Header />
         <main>
-          <div className="bg-green-500 text-white p-4 text-xl font-bold text-center">
+          <div className="bg-green-500 py-50 text-white p-4 text-xl font-bold text-center">
             Todo <Outlet />
           </div>
         </main>
