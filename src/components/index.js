@@ -7,7 +7,7 @@ import Input from "./Input";
 import Login from "./Login";
 import Logo from "./Logo";
 import PostCard from "./PostCard";
-import PostForm from "./PostForm/PostForm";
+import PostForm from "./postForm/PostForm";
 import RTE from "./RTE";
 import Select from "./Select";
 import Signup from "./Signup";
