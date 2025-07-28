@@ -1,5 +1,5 @@
 import { Container, PostForm } from "../components/index";
-function Addpost() {
+function CreatePost() {
   return (
     <div>
       <Container>
@@ -9,4 +9,4 @@ function Addpost() {
   );
 }
 
-export default Addpost;
+export default CreatePost;
