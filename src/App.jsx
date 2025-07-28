@@ -34,7 +34,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#EAEAEA] text-[#1F271B]">
       <Header />
-      <main className="bg-[#0F0E17] text-white">
+      <main className=" flex-grow bg-[#0F0E17] text-white">
         <Outlet />
       </main>
       <Footer />

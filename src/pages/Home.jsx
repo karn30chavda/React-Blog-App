@@ -22,7 +22,7 @@ function Home() {
         key={index}
         className="w-full sm:w-[300px] h-[320px] bg-white/5 rounded-3xl overflow-hidden shadow animate-pulse"
       >
-        <div className="h-[200px] bg-gray-700 flex items-center justify-center"></div>
+        <div className="h-[270px] bg-gray-700 flex items-center justify-center"></div>
         <div className="p-4 space-y-2">
           <div className="h-4 bg-gray-600 rounded w-3/4"></div>
           <div className="h-3 bg-gray-600 rounded w-1/2"></div>

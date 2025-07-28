@@ -37,16 +37,18 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-[#893168]/20 rounded-3xl p-6 shadow-lg">
+    <div className="min-h-screen flex items-center justify-center px-4 ">
+      <div className="w-full max-w-sm sm:max-w-md bg-white/10 backdrop-blur-md border border-[#893168]/30 rounded-2xl p-5 sm:p-6 shadow-2xl">
         <div className="mb-6 text-center">
           <Logo fontsize="4xl" />
-          <h2 className="my-4 text-2xl font-bold text-[#d6afd0]">Login Page</h2>
+          <h2 className="my-3 text-xl sm:text-2xl font-bold text-[#d6afd0]">
+            Login Page
+          </h2>
           <p className="text-sm text-gray-300">
             Don&apos;t have an account?
             <Link
               to="/signup"
-              className="text-[#c288b8] font-medium hover:underline ml-2"
+              className="text-[#c288b8] font-medium hover:underline ml-1"
             >
               Sign Up
             </Link>
@@ -54,7 +56,7 @@ function Login() {
         </div>
 
         {error && (
-          <p className="text-red-600 text-center text-sm mb-4">{error}</p>
+          <p className="text-red-500 text-center text-sm mb-4">{error}</p>
         )}
 
         <form onSubmit={handleSubmit(login)} className="space-y-4">
@@ -80,7 +82,7 @@ function Login() {
               {...register("password", { required: true })}
             />
             <div
-              className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
+              className="absolute right-3 top-[38px] cursor-pointer text-gray-500"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}

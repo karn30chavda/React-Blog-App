@@ -40,7 +40,7 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 py-6 sm:px-6 sm:py-12 ">
       <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-[#893168]/20 rounded-3xl p-6 shadow-lg">
         <div className="mb-6 flex justify-center">
           <Logo fontsize="4xl" />
@@ -50,10 +50,10 @@ function Signup() {
           Sign up to create account
         </h2>
         <p className="mt-2 text-center text-base text-gray-300">
-          Already have an account?&nbsp;
+          Already have an account?{" "}
           <Link
             to="/login"
-            className="font-medium text-[#c288b8]  hover:underline"
+            className="font-medium text-[#c288b8] hover:underline"
           >
             Login
           </Link>
@@ -63,54 +63,52 @@ function Signup() {
           <p className="text-red-600 mt-6 text-center text-sm">{error}</p>
         )}
 
-        <form onSubmit={handleSubmit(create)} className="mt-8">
-          <div className="space-y-5">
-            <Input
-              label="Full Name:"
-              placeholder="Enter your full name"
-              {...register("name", { required: true })}
-            />
+        <form onSubmit={handleSubmit(create)} className="mt-8 space-y-5">
+          <Input
+            label="Full Name:"
+            placeholder="Enter your full name"
+            {...register("name", { required: true })}
+          />
 
-            <Input
-              label="Email:"
-              type="email"
-              placeholder="Enter your email"
-              {...register("email", {
-                required: true,
-                validate: {
-                  matchPatern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                    "Invalid email address",
-                },
-              })}
-            />
+          <Input
+            label="Email:"
+            type="email"
+            placeholder="Enter your email"
+            {...register("email", {
+              required: true,
+              validate: {
+                matchPatern: (value) =>
+                  /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                  "Invalid email address",
+              },
+            })}
+          />
 
-            <div className="relative">
-              <Input
-                label="Password:"
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                {...register("password", { required: true })}
-              />
-              <div
-                className="absolute right-3 top-9 cursor-pointer text-gray-500"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </div>
+          <div className="relative">
+            <Input
+              label="Password:"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              {...register("password", { required: true })}
+            />
+            <div
+              className="absolute right-3 top-9 cursor-pointer text-gray-500"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </div>
-
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Creating account...
-                </span>
-              ) : (
-                "Create Account"
-              )}
-            </Button>
           </div>
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Creating account...
+              </span>
+            ) : (
+              "Create Account"
+            )}
+          </Button>
         </form>
       </div>
     </div>
