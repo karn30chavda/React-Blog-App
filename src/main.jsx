@@ -5,7 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import { Protected as AuthLayout, Login } from "./components/index.js";
 import "./index.css";
-import Addpost from "./pages/AddPost.jsx";
+import Addpost from "./pages/Addpost.jsx";
 import AllPost from "./pages/AllPost.jsx";
 import EditPost from "./pages/EditPost";
 import Home from "./pages/Home.jsx";
