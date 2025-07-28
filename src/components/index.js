@@ -1,13 +1,16 @@
+import Protected from "./AuthLayout";
 import Button from "./Button";
 import Container from "./container/Container";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
-import LogoutBtn from "./header/LogoutBtn";
 import Input from "./input";
 import Login from "./Login";
 import Logo from "./Logo";
 import PostCard from "./PostCard";
+import PostForm from "./PostForm/PostForm";
+import RTE from "./RTE";
 import Select from "./Select";
+import Signup from "./Signup";
 
 export {
   Button,
@@ -17,7 +20,10 @@ export {
   Input,
   Login,
   Logo,
-  LogoutBtn,
   PostCard,
+  PostForm,
+  Protected,
+  RTE,
   Select,
+  Signup,
 };

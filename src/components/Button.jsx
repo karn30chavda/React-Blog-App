@@ -1,18 +1,18 @@
 function Button({
-  buttonText,
+  children,
   type = "button",
-  bgcolor = "bg-[#28AFB0]",
-  textcolor = "text-white",
+  bgcolor = "bg-[#893168]",
+  textcolor = "text-[#EAEAEA]",
   className = "",
   ...props
 }) {
   return (
     <button
       type={type}
-      className={`px-4 py-2 rounded-lg font-medium ${bgcolor} ${textcolor} hover:brightness-110 hover:shadow-md focus:ring-2 focus:ring-[#F4D35E] transition-all duration-300 ${className}`}
+      className={`px-4 py-2 rounded-xl font-semibold tracking-wide uppercase ${bgcolor} ${textcolor} hover:brightness-110 hover:shadow-lg hover:cursor-pointer focus:ring-2 focus:ring-[#4A1942] transition-all duration-300 ${className}`}
       {...props}
     >
-      {buttonText}
+      {children}
     </button>
   );
 }

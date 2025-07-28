@@ -22,19 +22,24 @@ function App() {
       .finally(() => setLoading(false));
   }, []);
 
-  return !loading ? (
-    <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
-      <div className="w-full block">
-        <Header />
-        <main>
-          <div className="bg-green-500 py-50 text-white p-4 text-xl font-bold text-center">
-            Todo <Outlet />
-          </div>
-        </main>
-        <Footer />
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0F0E17] text-white">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#c0e0b0]" />
+        <span className="ml-4 text-xl font-semibold">Loading Page...</span>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#EAEAEA] text-[#1F271B]">
+      <Header />
+      <main className="bg-[#0F0E17] text-white">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
-  ) : null;
+  );
 }
 
 export default App;

@@ -2,8 +2,15 @@
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --primary: #6366f1;
+  --secondary: #f97316;
+  --bg-dark: #1f2937;
+  --bg-light: #111827;
+  --text-main: #f9fafb;
+  --text-muted: #d1d5db;
+  --border: #374151;
+  --hover: #3b82f6;
+  --danger: #ef4444;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

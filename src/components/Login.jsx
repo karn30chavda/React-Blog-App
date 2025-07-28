@@ -1,76 +1,100 @@
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../appwrite/auth";
-import { login as authlogin } from "../features/authSlice";
+import { login as authLogin } from "../features/authSlice";
 import { Button, Input, Logo } from "./index";
 
 function Login() {
-  const [error, seterror] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const login = async (data) => {
-    seterror("");
+    setError("");
+    setLoading(true);
     try {
-      const userData = await authService.login(data);
-      if (userData) dispatch(authlogin(userData));
-      navigate("/");
+      const session = await authService.login(data);
+      if (session) {
+        const userData = await authService.getCurrentUser();
+        if (userData) dispatch(authLogin(userData));
+        navigate("/");
+      }
     } catch (error) {
-      seterror(error.message);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center w-full min-h-screen bg-[#1F271B] px-4">
-      <div className="mx-auto w-full max-w-lg bg-[#F4D35E] rounded-xl p-10 shadow-lg border border-[#28AFB0]">
-        <div className="mb-4 flex justify-center">
-          <span className="inline-block w-full max-w-[100px]">
-            <Logo width="100%" />
-          </span>
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-[#893168]/20 rounded-3xl p-6 shadow-lg">
+        <div className="mb-6 text-center">
+          <Logo fontsize="4xl" />
+          <h2 className="my-4 text-2xl font-bold text-[#d6afd0]">Login Page</h2>
+          <p className="text-sm text-gray-300">
+            Don&apos;t have an account?
+            <Link
+              to="/signup"
+              className="text-[#c288b8] font-medium hover:underline ml-2"
+            >
+              Sign Up
+            </Link>
+          </p>
         </div>
 
-        <h2 className="text-center text-2xl font-bold text-[#1F271B]">
-          Sign in to your account
-        </h2>
+        {error && (
+          <p className="text-red-600 text-center text-sm mb-4">{error}</p>
+        )}
 
-        <p className="mt-2 text-center text-base text-[#19647E]">
-          Don&apos;t have an account?&nbsp;
-          <Link
-            to="/signup"
-            className="font-medium text-[#EE964B] hover:underline"
-          >
-            Sign Up
-          </Link>
-        </p>
-
-        {error && <p className="text-red-600 mt-6 text-center">{error}</p>}
-
-        <form onSubmit={handleSubmit(login)} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit(login)} className="space-y-4">
           <Input
             label="Email:"
-            placeholder="Enter your Email"
             type="email"
+            placeholder="Enter your email"
             {...register("email", {
               required: true,
               validate: {
-                matchPatern: (value) =>
+                matchPattern: (value) =>
                   /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
-                  "Email address must be a valid address",
+                  "Invalid email address",
               },
             })}
           />
-          <Input
-            label="Password"
-            placeholder="Enter your Password"
-            type="password"
-            {...register("password", { required: true })}
-          />
 
-          <Button type="submit" className="w-full">
-            Login
+          <div className="relative">
+            <Input
+              label="Password:"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              {...register("password", { required: true })}
+            />
+            <div
+              className="absolute right-3 top-[38px] cursor-pointer text-gray-600"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </div>
+          </div>
+
+          <Button type="submit" className="w-full mt-2" disabled={loading}>
+            {loading ? (
+              <span className="flex justify-center items-center gap-2">
+                <Loader2 className="animate-spin" size={18} /> Logging in...
+              </span>
+            ) : (
+              "Login"
+            )}
           </Button>
         </form>
       </div>
