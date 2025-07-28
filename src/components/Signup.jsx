@@ -55,7 +55,7 @@ function Signup() {
             to="/login"
             className="font-medium text-[#c288b8]  hover:underline"
           >
-            Sign In
+            Login
           </Link>
         </p>
 
