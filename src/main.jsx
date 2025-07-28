@@ -12,7 +12,6 @@ import Home from "./pages/Home.jsx";
 import Post from "./pages/Post";
 import Signup from "./pages/Signup";
 import store from "./store/store.js";
-
 const router = createBrowserRouter([
   {
     path: "/",
