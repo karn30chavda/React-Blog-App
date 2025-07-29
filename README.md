@@ -1,7 +1,5 @@
 # 🚀 Dev.Blogs – A Developer's Blogging Platform
 
-![React Blog Banner](https://react-blog-appl.netlify.app/screenshot.png) <!-- Add your own screenshot if needed -->
-
 Welcome to **Dev.Blogs**, a modern and developer-focused blog platform where you can **write, edit, and share** posts with a powerful UI and seamless backend integration using **Appwrite**. Built with **React + Vite**, animated with **Framer Motion**, and styled using **Tailwind CSS**.
 
 ---
