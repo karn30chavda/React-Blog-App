@@ -20,7 +20,7 @@ function PostCard({ $id, title, featuredimage, username }) {
           src={service.getFilePreview(featuredimage)}
           alt={title}
           crossOrigin="anonymous"
-          className={`w-full h-[220px] sm:h-[270px] object-cover group-hover:scale-105 transition-transform duration-300  ${
+          className={`w-full h-[220px] sm:h-[300px] object-cover group-hover:scale-105 transition-transform duration-300  ${
             imgLoaded ? "opacity-100" : "opacity-0"
           }`}
           onLoad={() => setImgLoaded(true)}
