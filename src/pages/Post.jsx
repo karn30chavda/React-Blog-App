@@ -34,13 +34,16 @@ export default function Post() {
   const isAuthor = post && post.userid === userData?.$id;
 
   const deletePost = () => {
-    service.deletePost(post.$id).then((status) => {
-      if (status) {
-        service.deleteFile(post.featuredimage);
-        navigate("/");
-      }
-    });
-  };
+  const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+  if (!confirmDelete) return;
+
+  service.deletePost(post.$id).then((status) => {
+    if (status) {
+      service.deleteFile(post.featuredimage);
+      navigate("/");
+    }
+  });
+};
 
   return (
     <div className="py-8">
