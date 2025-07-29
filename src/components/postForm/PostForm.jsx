@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, FormLoader, Input, RTE, Select } from "..";
-
 import service from "../../appwrite/appwritedata";
 
 function PostForm({ post }) {
@@ -63,15 +62,19 @@ function PostForm({ post }) {
   }, []);
 
   useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === "title") {
-        setValue("slug", slugTransform(value.title), { shouldValidate: true });
-      }
-    });
+    if (!post) {
+      const subscription = watch((value, { name }) => {
+        if (name === "title") {
+          setValue("slug", slugTransform(value.title), {
+            shouldValidate: true,
+          });
+        }
+      });
+      return () => subscription.unsubscribe();
+    }
+  }, [watch, slugTransform, setValue, post]);
 
-    return () => subscription.unsubscribe();
-  }, [watch, slugTransform, setValue]);
-
+  // Just for the loader animation
   useEffect(() => {
     const timer = setTimeout(() => setRteLoaded(false), 2000);
     return () => clearTimeout(timer);
@@ -101,11 +104,14 @@ function PostForm({ post }) {
               label="Slug"
               placeholder="Auto-generated slug"
               {...register("slug", { required: true })}
-              onInput={(e) =>
-                setValue("slug", slugTransform(e.currentTarget.value), {
-                  shouldValidate: true,
-                })
-              }
+              // ✅ Removed auto-transform on input for existing posts
+              onInput={(e) => {
+                if (!post) {
+                  setValue("slug", slugTransform(e.currentTarget.value), {
+                    shouldValidate: true,
+                  });
+                }
+              }}
             />
 
             {/* File Upload */}
