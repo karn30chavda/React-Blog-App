@@ -11,7 +11,7 @@ const { register, handleSubmit, watch, control, setValue, getValues } =
 useForm({
 defaultValues: {
 title: post?.title || "",
-slug: post?.slug || "",
+slug: post?.slug,
 content: post?.content || "",
 status: post?.status || "Active",
 username: post?.username || "",
