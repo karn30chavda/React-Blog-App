@@ -14,7 +14,9 @@ Welcome to **Dev.Blogs**, a modern and developer-focused blog platform where you
 
 ## 📸 Homepage Preview
 
-![Homepage Screenshot](<your image upload link or screenshot URL>)
+<p align="center">
+  <img src="./src/Sampleimage/homeimage.png" width="700" alt="Home Page Screenshot" />
+</p>
 
 ---
 
