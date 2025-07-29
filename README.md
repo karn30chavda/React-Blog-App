@@ -78,7 +78,7 @@ karn30chavda-react-blog-app/
 
 ---
 
-```bash
+```
 
 🛠️ Setup Instructions
 
