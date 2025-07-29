@@ -1,4 +1,4 @@
-import { FileText, Sparkles } from "lucide-react";
+import { FileText, FrownIcon, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import service from "../appwrite/appwritedata";
@@ -100,10 +100,16 @@ function AllPosts() {
       {loading ? (
         <AllPostLoader />
       ) : posts.length === 0 ? (
-        <p className="text-center text-gray-300 mt-10">
-          <FileText className="inline-block mr-2" />
-          No posts found 😢
-        </p>
+        <>
+          <div className="flex flex-col items-center justify-center mt-10">
+            <div className="mb-4">
+              <FileText size={48} className="text-violet-500" />
+            </div>
+            <p className="text-center text-gray-300 flex items-center">
+              No posts found <FrownIcon className="text-blue-500 ml-2" />
+            </p>
+          </div>
+        </>
       ) : (
         <div className="flex flex-wrap justify-center gap-6">
           {posts.map((post) => (
