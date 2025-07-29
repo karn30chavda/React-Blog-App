@@ -17,7 +17,7 @@ function Footer() {
         {/* Social Icons */}
         <div className="flex items-center gap-5">
           <a
-            href="https://github.com/your-github"
+            href="https://github.com/karn30chavda"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[#F4D35E] transition duration-300 cursor-pointer"
@@ -25,7 +25,7 @@ function Footer() {
             <Github size={24} />
           </a>
           <a
-            href="https://www.linkedin.com/in/your-linkedin"
+            href="https://www.linkedin.com/in/karanchavda300902/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[#F4D35E] transition duration-300 cursor-pointer"

@@ -1,11 +1,25 @@
-import { BookText, CardSim, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  Code2,
+  Flame,
+  Lightbulb,
+  LockKeyholeOpen,
+  LogIn,
+  PenLine,
+  Sparkles,
+  Users2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import service from "../appwrite/appwritedata";
-import { Container, PostCard } from "../components";
+import { Container, HomeLoader, PostCard } from "../components";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const authStatus = useSelector((state) => state.auth.status);
+  const navigate = useNavigate();
 
   useEffect(() => {
     service.getPosts().then((posts) => {
@@ -16,63 +30,139 @@ function Home() {
     });
   }, []);
 
-  const renderSkeletonCards = () => {
-    return Array.from({ length: 3 }).map((_, index) => (
-      <div
-        key={index}
-        className="w-full sm:w-[300px] h-[320px] bg-white/5 rounded-3xl overflow-hidden shadow animate-pulse"
-      >
-        <div className="h-[270px] bg-gray-700 flex items-center justify-center"></div>
-        <div className="p-4 space-y-2">
-          <div className="h-4 bg-gray-600 rounded w-3/4"></div>
-          <div className="h-3 bg-gray-600 rounded w-1/2"></div>
-          <div className="h-8 bg-gray-700 rounded w-full mt-3"></div>
-        </div>
-      </div>
-    ));
-  };
-
-  return (
-    <div className="w-full min-h-screen bg-[#0F0E17] text-white py-10">
+  return loading ? (
+    <HomeLoader />
+  ) : (
+    <div className="w-full min-h-screen bg-[#0F0E17] text-white">
       <Container>
-        {/* 🔥 Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#FFD803] flex justify-center items-center gap-2">
-            <BookText className="w-8 h-8 text-[#F25F4C]" />
-            Dev.Blogs
+        {/* 🚀 Hero Section */}
+        <section className="text-center py-20">
+          <h1 className="text-5xl font-extrabold text-[#FFD803] mb-4">
+            <span className="flex justify-center items-center gap-2">
+              <PenLine className="w-8 h-8 text-[#F25F4C]" />
+              Dev.Blogs
+            </span>
           </h1>
-          <p className="text-gray-300 text-lg mt-2 flex justify-center items-center gap-1">
-            <Sparkles className="w-5 h-5 text-yellow-300" />
-            Share your knowledge with the world.
+          <p className="text-lg text-gray-300 max-w-xl mx-auto mb-6">
+            Code your thoughts. Share your ideas. Build your voice.
           </p>
-        </div>
+          <button
+            onClick={() => navigate("/create-post")}
+            className="bg-[#F25F4C] px-6 py-3 rounded-full text-white font-semibold hover:cursor-pointer hover:scale-95  hover:bg-[#ff705c] transition"
+          >
+            Start Writing
+          </button>
+        </section>
 
-        {/* 🌀 Loading */}
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {renderSkeletonCards()}
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="text-center py-16">
-            <h2 className="flex justify-center items-center gap-3 text-2xl font-semibold text-red-300">
-              No posts yet <CardSim />
-            </h2>
-            <p className="text-gray-400 mt-2">
-              Please Login/Sign up First or Create Post
-            </p>
-            <p className="text-gray-400 mt-2">
-              Be the first one to publish something amazing!
-            </p>
-          </div>
-        ) : (
-          <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {posts.map((post) => (
-                <PostCard key={post.$id} {...post} />
-              ))}
+        {/* 🧠 Blog Cards */}
+        <section className="pb-15">
+          {!authStatus ? (
+            <div className="text-center ">
+              <LogIn className="w-10 h-10 text-yellow-300 mx-auto mb-2 animate-bounce" />
+              <h2 className=" flex justify-center items-center  gap-2 text-2xl font-semibold text-yellow-300">
+                Login or Sign Up to view blog posts{" "}
+                <LockKeyholeOpen className="text-orange-400 w-6 h-6 animate-pulse" />
+              </h2>
+              <p className="text-gray-400 mt-2">
+                We don’t want you to miss out on awesome content.
+              </p>
             </div>
-          </>
-        )}
+          ) : posts.length === 0 ? (
+            <div className="text-center py-16">
+              <h2 className="text-2xl font-semibold text-red-300">
+                No posts found.
+              </h2>
+              <p className="text-gray-400 mt-2">
+                Be the first to share something awesome!
+              </p>
+            </div>
+          ) : (
+            <div>
+              <h2 className="text-2xl font-bold mb-10 text-center text-white">
+                <span className="flex justify-center items-center gap-2 animate-bounce">
+                  <Flame className="text-[#FFD803] animate-pulse" />
+                  Featured Blogs
+                </span>
+              </h2>
+              <div className="flex justify-center  items-center gap-6 flex-wrap">
+                {posts.map((post) => (
+                  <PostCard key={post.$id} {...post} />
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* 💡 Platform Features */}
+        <section className="grid md:grid-cols-3 gap-8 text-center py-16 border-y border-white/10">
+          <div>
+            <Code2 className="mx-auto w-10 h-10 text-[#FFD803]" />
+            <h3 className="text-xl font-bold mt-4">Built for Devs</h3>
+            <p className="text-gray-400 mt-2 text-sm">
+              Write about code, tools, projects — all in one space.
+            </p>
+          </div>
+          <div>
+            <Users2 className="mx-auto w-10 h-10 text-[#FFD803]" />
+            <h3 className="text-xl font-bold mt-4">Engage Community</h3>
+            <p className="text-gray-400 mt-2 text-sm">
+              Like-minded devs read and support your content.
+            </p>
+          </div>
+          <div>
+            <Sparkles className="mx-auto w-10 h-10 text-[#FFD803]" />
+            <h3 className="text-xl font-bold mt-4">Slick Writing</h3>
+            <p className="text-gray-400 mt-2 text-sm">
+              Rich editor, preview, and blazing fast UI.
+            </p>
+          </div>
+        </section>
+
+        {/* 📊 Stats Section */}
+        <section className="p-16 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="text-left space-y-4 max-w-xl">
+            <h2 className="text-3xl font-bold text-[#FFD803]">
+              Powering the next-gen devs
+            </h2>
+            <p className="text-gray-300">
+              Thousands of blogs read, written, and shared every day. Be a part
+              of the dev wave.
+            </p>
+          </div>
+          <div className="flex items-center gap-10 text-center">
+            <div>
+              <h3 className="text-4xl font-bold text-[#F25F4C]">100+</h3>
+              <p className="text-gray-400">Blogs</p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold text-[#F25F4C]">50+</h3>
+              <p className="text-gray-400">Authors</p>
+            </div>
+            <div>
+              <h3 className="text-4xl font-bold text-[#F25F4C]">∞</h3>
+              <p className="text-gray-400">Ideas</p>
+            </div>
+          </div>
+        </section>
+
+        {/* 📣 Final CTA */}
+        <section className="bg-white/5 backdrop-blur-md rounded-3xl p-10 my-10 mx-auto max-w-3xl text-center shadow-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col items-center gap-4"
+          >
+            <Lightbulb className="text-yellow-400 w-10 h-10 animate-pulse" />
+            <h2 className="text-2xl font-bold text-[#F25F4C]">Did You Know?</h2>
+            <p className="text-gray-300 italic">
+              The word <span className="font-semibold text-white">"blog"</span>
+              came from a joke! In 1999, Peter Merholz broke the word "weblog"
+              into "we blog" — and just like that,
+              <span className="text-white font-medium"> blogs were born.</span>
+            </p>
+          </motion.div>
+        </section>
       </Container>
     </div>
   );

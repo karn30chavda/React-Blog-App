@@ -16,7 +16,15 @@ export class Service {
 
   // 📝 Posts Functions
 
-  async createPost({ title, slug, content, featuredimage, status, userid }) {
+  async createPost({
+    title,
+    slug,
+    content,
+    featuredimage,
+    status,
+    userid,
+    username,
+  }) {
     try {
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
@@ -28,6 +36,7 @@ export class Service {
           featuredimage,
           status,
           userid,
+          username,
         }
       );
     } catch (error) {
@@ -35,7 +44,7 @@ export class Service {
     }
   }
 
-  async updatePost(slug, { title, content, featuredimage, status }) {
+  async updatePost(slug, { title, content, featuredimage, status, username }) {
     try {
       return await this.databases.updateDocument(
         config.appwriteDatabaseId,
@@ -46,6 +55,7 @@ export class Service {
           content,
           featuredimage,
           status,
+          username,
         }
       );
     } catch (error) {

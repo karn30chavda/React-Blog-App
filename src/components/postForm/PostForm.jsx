@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, RTE, Select } from "..";
+import { Button, FormLoader, Input, RTE, Select } from "..";
+
 import service from "../../appwrite/appwritedata";
 
 function PostForm({ post }) {
@@ -13,13 +14,14 @@ function PostForm({ post }) {
         slug: post?.slug || "",
         content: post?.content || "",
         status: post?.status || "Active",
+        username: post?.username || "",
       },
     });
 
   const [selectedFileName, setSelectedFileName] = useState("No file chosen");
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  const [rteLoaded, setRteLoaded] = useState(false);
+  const [rteLoaded, setRteLoaded] = useState(true);
 
   const submit = async (data) => {
     if (post) {
@@ -41,6 +43,7 @@ function PostForm({ post }) {
         const dbPost = await service.createPost({
           ...data,
           userid: userData.$id,
+          username: userData.name,
           featuredimage: file.$id,
         });
 
@@ -70,11 +73,13 @@ function PostForm({ post }) {
   }, [watch, slugTransform, setValue]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setRteLoaded(true), 1000);
+    const timer = setTimeout(() => setRteLoaded(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
-  return (
+  return rteLoaded ? (
+    <FormLoader />
+  ) : (
     <form
       onSubmit={handleSubmit(submit)}
       className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-4"
@@ -166,21 +171,12 @@ function PostForm({ post }) {
           </h2>
 
           <div className="w-full">
-            {rteLoaded ? (
-              <RTE
-                label=""
-                name="content"
-                control={control}
-                defaultValue={getValues("content")}
-              />
-            ) : (
-              <div className="h-[280px] w-full rounded-xl bg-white/10 border border-[#ccc] flex flex-col items-center justify-center gap-2">
-                <div className="w-8 h-8 border-4 border-[#3cb6ee] border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-xl text-[#c293b0] font-bold">
-                  Text Editor Loading...
-                </p>
-              </div>
-            )}
+            <RTE
+              label=""
+              name="content"
+              control={control}
+              defaultValue={getValues("content")}
+            />
           </div>
         </div>
       </div>

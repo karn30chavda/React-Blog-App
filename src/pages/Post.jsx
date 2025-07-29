@@ -5,21 +5,26 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import service from "../appwrite/appwritedata";
 import { Button, Container } from "../components";
+import PostLoader from "../SkeletonLoader/PostLoader";
 
 export default function Post() {
   const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
     if (slug) {
+      setLoading(true);
       service.getPost(slug).then((postData) => {
         if (postData) {
           setPost(postData);
         } else {
           navigate("/");
         }
+        setLoading(false);
       });
     } else {
       navigate("/");
@@ -40,14 +45,24 @@ export default function Post() {
   return (
     <div className="py-8">
       <Container>
-        {post ? (
+        {loading ? (
+          <PostLoader />
+        ) : post ? (
           <div className="w-full max-w-4xl mx-auto bg-white/5 p-6 rounded-2xl border border-white/10 shadow-md">
+            {/* Post Image */}
             <div className="relative mb-6 overflow-hidden rounded-xl">
+              {!imgLoaded && (
+                <div className="absolute inset-0 bg-white/5 animate-pulse" />
+              )}
               <img
                 src={service.getFilePreview(post.featuredimage)}
                 alt={post.title}
-                className="w-full max-h-[400px] object-cover rounded-xl border border-white/10"
+                className={`w-full max-h-[400px] object-cover group-hover:scale-105 transition-transform duration-300  ${
+                  imgLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoad={() => setImgLoaded(true)}
               />
+              {/* Edit/Delete Buttons */}
               {isAuthor && (
                 <div className="absolute top-4 right-4 flex gap-2">
                   <Link to={`/edit-post/${post.$id}`}>
@@ -69,23 +84,18 @@ export default function Post() {
               )}
             </div>
 
+            {/* Post Title */}
             <h1 className="text-3xl font-bold text-white mb-4 border-b border-white/10 pb-2">
               {post.title}
             </h1>
+
+            {/* Post Content */}
             <div className="prose prose-invert max-w-none browser-css">
               {parse(post.content)}
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-4xl mx-auto bg-white/5 p-6 rounded-2xl border border-white/10 shadow-md animate-pulse">
-            <div className="w-full h-[400px] bg-white/10 rounded-xl mb-6"></div>
-            <div className="h-6 w-3/4 bg-white/10 rounded mb-4"></div>
-            <div className="space-y-2">
-              <div className="h-4 w-full bg-white/10 rounded"></div>
-              <div className="h-4 w-5/6 bg-white/10 rounded"></div>
-              <div className="h-4 w-2/3 bg-white/10 rounded"></div>
-            </div>
-          </div>
+          <p className="text-center text-white">Post not found.</p>
         )}
       </Container>
     </div>

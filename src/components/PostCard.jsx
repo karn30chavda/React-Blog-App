@@ -1,9 +1,9 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, UserPen } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import service from "../appwrite/appwritedata";
 
-function PostCard({ $id, title, featuredimage }) {
+function PostCard({ $id, title, featuredimage, username }) {
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ function PostCard({ $id, title, featuredimage }) {
       {/* Image */}
       <div className="overflow-hidden relative">
         {!imgLoaded && (
-          <div className="absolute inset-0 bg-gray-400 animate-pulse" />
+          <div className="absolute inset-0 bg-gray-300 animate-pulse" />
         )}
         <img
           src={service.getFilePreview(featuredimage)}
@@ -29,11 +29,22 @@ function PostCard({ $id, title, featuredimage }) {
 
       {/* Content */}
       <div className="p-4 flex flex-col justify-between min-h-[120px]">
-        <h2 className="text-2xl font-bold border-b uppercase text-center border-gray-600 pb-1">
+        <h2 className="text-2xl font-bold border-b uppercase text-center border-gray-600 pb-1  truncate">
           {title}
         </h2>
+        <div className="mt-2 text-sm font-semibold hover:cursor-pointer rounded-lg transition bg-white/3 p-1">
+          <p className="text-sm text-gray-400  ml-3 flex items-center gap-3 animate-pulse">
+            <UserPen
+              size={16}
+              className="text-green-500 transition-transform duration-200 group-hover:scale-110 "
+            />
+            <span className="text-blue-400 hover:text-blue-600 hover:underline tracking-wider  font-bold cursor-pointer transition-all duration-200 ease-in-out">
+              {username}
+            </span>
+          </p>
+        </div>
 
-        <button className="mt-4 inline-flex items-center justify-between gap-5 px-2 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer rounded-lg transition">
+        <button className="mt-3 inline-flex items-center justify-between gap-5 px-3 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer rounded-lg transition">
           Read more
           <ArrowRight />
         </button>
