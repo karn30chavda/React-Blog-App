@@ -50,7 +50,6 @@ Welcome to **Dev.Blogs**, a modern and developer-focused blog platform where you
 - ✅ Featured blogs section on homepage
 - ✅ Post previews with author name and "Read More" link
 - ✅ Filter by status (Active / Inactive)
-- ✅ Search bar to find posts
 - ✅ Modern animated UI with Framer Motion
 - ✅ Fully responsive layout using Tailwind
 
@@ -78,6 +77,8 @@ karn30chavda-react-blog-app/
 
 
 ---
+
+```bash
 
 🛠️ Setup Instructions
 
