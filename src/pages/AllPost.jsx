@@ -96,7 +96,7 @@ function AllPosts() {
         <div className="w-full sm:w-72">
           <label className="flex items-center gap-2 mb-2 text-sm text-[#d6afd0] font-medium pl-1">
             <Search className="w-4 h-4 text-[#d6afd0]" />
-            Search
+            Search blog
           </label>
           <div className="relative">
             <input
