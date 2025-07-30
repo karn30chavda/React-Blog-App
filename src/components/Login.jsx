@@ -37,8 +37,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0f0f11] px-4 py-10">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-[#893168]/30 rounded-2xl p-6 sm:p-8 shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-[#0f0f11] px-4 pt-6 pb-4 sm:pt-10 sm:pb-8">
+      <div className="w-full max-w-md bg-white/10 backdrop-blur-md border border-[#893168]/30 rounded-3xl p-6 sm:p-8 shadow-2xl">
         <div className="mb-6 text-center">
           <Logo fontsize="4xl" />
           <h2 className="mt-3 text-xl sm:text-2xl font-bold text-[#d6afd0]">
@@ -59,7 +59,7 @@ function Login() {
           <p className="text-red-500 text-center text-sm mb-4">{error}</p>
         )}
 
-        <form onSubmit={handleSubmit(login)} className="space-y-5">
+        <form onSubmit={handleSubmit(login)} className="space-y-6">
           <Input
             label="Email:"
             type="email"
@@ -93,7 +93,7 @@ function Login() {
 
           <Button
             type="submit"
-            className="w-full py-3 text-base rounded-md font-semibold"
+            className="w-full py-3 text-base rounded-md font-semibold transition-all duration-200 hover:bg-[#6d1f55] active:scale-[.98]"
             disabled={loading}
           >
             {loading ? (
