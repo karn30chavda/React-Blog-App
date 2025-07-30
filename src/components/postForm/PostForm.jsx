@@ -7,11 +7,10 @@ import { Button, FormLoader, Input, RTE, Select } from "..";
 import service from "../../appwrite/appwritedata";
 
 function PostForm({ post }) {
-  const { register, handleSubmit, watch, control, setValue, getValues } =
+  const { register, handleSubmit, watch, control, setValue, getValues, reset } =
     useForm({
       defaultValues: {
         title: post?.title || "",
-        slug: post?.slug,
         content: post?.content || "",
         status: post?.status || "Active",
         username: post?.username || "",
@@ -19,38 +18,10 @@ function PostForm({ post }) {
     });
 
   const [selectedFileName, setSelectedFileName] = useState("No file chosen");
+  const [slug, setSlug] = useState(post?.title || "");
+  const [rteLoaded, setRteLoaded] = useState(true);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  const [rteLoaded, setRteLoaded] = useState(true);
-
-  const submit = async (data) => {
-    if (post) {
-      const file = data.image[0]
-        ? await service.uploadFile(data.image[0])
-        : null;
-
-      if (file) await service.deleteFile(post.featuredimage);
-
-      const dbPost = await service.updatePost(post.$id, {
-        ...data,
-        featuredimage: file ? file.$id : post.featuredimage,
-      });
-
-      if (dbPost) navigate(`/post/${dbPost.$id}`);
-    } else {
-      const file = await service.uploadFile(data.image[0]);
-      if (file) {
-        const dbPost = await service.createPost({
-          ...data,
-          userid: userData.$id,
-          username: userData.name,
-          featuredimage: file.$id,
-        });
-
-        if (dbPost) navigate(`/post/${dbPost.$id}`);
-      }
-    }
-  };
 
   const slugTransform = useCallback((value) => {
     return (
@@ -62,20 +33,66 @@ function PostForm({ post }) {
     );
   }, []);
 
+  // Sync slug with title (both create & edit)
   useEffect(() => {
-    const subscription = watch((value, { name }) => {
+    const sub = watch((value, { name }) => {
       if (name === "title") {
-        setValue("slug", slugTransform(value.title), { shouldValidate: true });
+        const newSlug = slugTransform(value.title);
+        setSlug(newSlug);
+        setValue("slug", newSlug);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => sub.unsubscribe();
   }, [watch, slugTransform, setValue]);
+
+  // Set slug on edit directly from post
+  useEffect(() => {
+    if (post) {
+      const newSlug = post.slug ? post.slug : slugTransform(post.title);
+      setSlug(newSlug);
+      setValue("slug", newSlug);
+    }
+  }, [post, setValue, slugTransform]);
 
   useEffect(() => {
     const timer = setTimeout(() => setRteLoaded(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  const submit = async (data) => {
+    const finalData = {
+      ...data,
+      slug: slug, // force slug to be synced
+    };
+
+    if (post) {
+      const file = data.image[0]
+        ? await service.uploadFile(data.image[0])
+        : null;
+
+      if (file) await service.deleteFile(post.featuredimage);
+
+      const dbPost = await service.updatePost(post.$id, {
+        ...finalData,
+        featuredimage: file ? file.$id : post.featuredimage,
+      });
+
+      if (dbPost) navigate(`/post/${dbPost.$id}`);
+    } else {
+      const file = await service.uploadFile(data.image[0]);
+      if (file) {
+        const dbPost = await service.createPost({
+          ...finalData,
+          userid: userData.$id,
+          username: userData.name,
+          featuredimage: file.$id,
+        });
+
+        if (dbPost) navigate(`/post/${dbPost.$id}`);
+      }
+    }
+  };
 
   return rteLoaded ? (
     <FormLoader />
@@ -97,15 +114,13 @@ function PostForm({ post }) {
               placeholder="Enter Blog title"
               {...register("title", { required: true })}
             />
+
             <Input
-              label="Slug"
+              label="Slug (auto-generated)"
               placeholder="Auto-generated slug"
-              {...register("slug", { required: true })}
-              onInput={(e) =>
-                setValue("slug", slugTransform(e.currentTarget.value), {
-                  shouldValidate: true,
-                })
-              }
+              value={slug}
+              disabled
+              className="cursor-not-allowed bg-[#f5f5f5] text-gray-500"
             />
 
             {/* File Upload */}
