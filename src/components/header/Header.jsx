@@ -1,7 +1,7 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import authService from "../../appwrite/auth";
 import Logo from "../../components/Logo";
 import { logout } from "../../features/authSlice";
@@ -11,6 +11,7 @@ function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", slug: "/", active: true },
@@ -36,7 +37,7 @@ function Header() {
       .logout()
       .then(() => {
         dispatch(logout());
-        window.location.reload();
+        navigate("/");
       })
       .catch((error) => {
         console.error("Logout failed:", error);
