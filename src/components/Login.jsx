@@ -64,7 +64,7 @@ function Login() {
             label="Email:"
             type="email"
             placeholder="Enter your email"
-            className="w-full p-3 rounded-md bg-[#1e1e20] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full p-3 rounded-md bg-[#1e1e20]  placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             {...register("email", {
               required: true,
               validate: {
@@ -80,7 +80,7 @@ function Login() {
               label="Password:"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className="w-full p-3 rounded-md bg-[#1e1e20] text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full p-3 rounded-md bg-[#1e1e20]  placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
               {...register("password", { required: true })}
             />
             <div
