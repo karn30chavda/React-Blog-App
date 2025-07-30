@@ -6,7 +6,7 @@ Welcome to **Dev.Blogs**, a modern and developer-focused blog platform where you
 
 ## 🔗 Live Demo
 
-🌐 [https://react-blog-appl.netlify.app](https://react-blog-appl.netlify.app)
+🌐 [Live deploy ](https://react-blog-appli.netlify.app)
 
 ---
 
