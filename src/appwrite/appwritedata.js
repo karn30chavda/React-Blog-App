@@ -1,4 +1,12 @@
-import { Client, Databases, ID, Query, Storage } from "appwrite";
+import {
+  Client,
+  Databases,
+  ID,
+  Permission,
+  Query,
+  Role,
+  Storage,
+} from "appwrite";
 import config from "../config/config.js";
 
 export class Service {
@@ -110,7 +118,8 @@ export class Service {
       return await this.bucket.createFile(
         config.appwriteBucketId,
         ID.unique(),
-        file
+        file,
+        [Permission.read(Role.any())]
       );
     } catch (error) {
       console.log("Appwrite service :: uploadFile :: error", error);
