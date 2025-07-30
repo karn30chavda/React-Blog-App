@@ -32,7 +32,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#EAEAEA] text-[#1F271B]">
+    <div className="min-h-screen flex flex-col  bg-[#0F0E17] text-white">
       <Header />
       <main className=" flex-grow bg-[#0F0E17] text-white">
         <Outlet />
