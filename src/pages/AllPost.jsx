@@ -9,6 +9,7 @@ import {
   XCircle,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import service from "../appwrite/appwritedata";
 import { AllPostLoader } from "../components";
 import PostCard from "../components/PostCard";
@@ -19,11 +20,13 @@ function AllPosts() {
   const [filter, setFilter] = useState("All Posts");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const userData = useSelector((state) => state.auth.userData);
 
   const dropdownRef = useRef();
 
   const sortOptions = [
     { label: "All Blogs", value: "All Posts", icon: FileText },
+    { label: "My Blogs", value: "My Posts", icon: Sparkles },
     { label: "Active Blogs", value: "Active Posts", icon: CheckCircle },
     { label: "Not Active Blogs", value: "Not Active Posts", icon: XCircle },
   ];
@@ -51,14 +54,21 @@ function AllPosts() {
             case "Active Posts":
               filtered = filtered.filter((post) => post.status === "Active");
               break;
+
             case "Not Active Posts":
               filtered = filtered.filter(
                 (post) => post.status === "Not Active"
               );
               break;
-            default:
-              // All Posts – no filter needed
+
+            case "My Posts":
+              filtered = filtered.filter(
+                (post) => post.userid === userData?.$id
+              );
               break;
+
+            default:
+            // All Posts – no filter needed
           }
 
           if (searchTerm.trim() !== "") {
@@ -78,7 +88,7 @@ function AllPosts() {
       .finally(() => {
         setLoading(false);
       });
-  }, [filter, searchTerm]);
+  }, [filter, searchTerm, userData?.$id]);
 
   return (
     <section className="py-10 px-5 sm:px-10 lg:px-20">

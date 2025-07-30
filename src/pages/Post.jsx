@@ -12,7 +12,7 @@ export default function Post() {
   const [loading, setLoading] = useState(true);
   const { slug } = useParams();
   const navigate = useNavigate();
-  const userData = useSelector((state) => state.auth.userData);
+  const { userData, isAuthReady } = useSelector((state) => state.auth);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
@@ -31,19 +31,21 @@ export default function Post() {
     }
   }, [slug, navigate]);
 
-  const isAuthor = post && post.userid === userData?.$id;
+  const isAuthor = isAuthReady && post && post.userid === userData?.$id;
 
   const deletePost = () => {
-  const confirmDelete = window.confirm("Are you sure you want to delete this post?");
-  if (!confirmDelete) return;
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+    if (!confirmDelete) return;
 
-  service.deletePost(post.$id).then((status) => {
-    if (status) {
-      service.deleteFile(post.featuredimage);
-      navigate("/");
-    }
-  });
-};
+    service.deletePost(post.$id).then((status) => {
+      if (status) {
+        service.deleteFile(post.featuredimage);
+        navigate("/");
+      }
+    });
+  };
 
   return (
     <div className="py-8">

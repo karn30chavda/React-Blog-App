@@ -2,8 +2,10 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import App from "./App.jsx";
-import { Protected as AuthLayout, Login } from "./components/index.js";
+import { Login, Protected } from "./components/index.js";
+
 import "./index.css";
 import AllPosts from "./pages/AllPost.jsx";
 import CreatePost from "./pages/CreatePost.jsx";
@@ -12,54 +14,52 @@ import Home from "./pages/Home.jsx";
 import Post from "./pages/Post";
 import Signup from "./pages/Signup";
 import store from "./store/store.js";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
+      { path: "/", element: <Home /> },
+
       {
         path: "/login",
         element: (
-          <AuthLayout authentication={false}>
+          <Protected authentication={false}>
             <Login />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
         path: "/signup",
         element: (
-          <AuthLayout authentication={false}>
+          <Protected authentication={false}>
             <Signup />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
         path: "/all-blogs",
         element: (
-          <AuthLayout authentication>
+          <Protected authentication>
             <AllPosts />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
         path: "/create-blog",
         element: (
-          <AuthLayout authentication>
+          <Protected authentication>
             <CreatePost />
-          </AuthLayout>
+          </Protected>
         ),
       },
-
       {
         path: "/edit-post/:slug",
         element: (
-          <AuthLayout authentication>
+          <Protected authentication>
             <EditPost />
-          </AuthLayout>
+          </Protected>
         ),
       },
       {
@@ -69,6 +69,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>

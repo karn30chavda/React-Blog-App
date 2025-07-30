@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import authService from "./appwrite/auth";
 import { Footer, Header } from "./components";
-import { login, logout } from "./features/authSlice";
+import { login, logout, setAuthReady } from "./features/authSlice";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -19,7 +19,10 @@ function App() {
           dispatch(logout());
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        dispatch(setAuthReady()); // ✅ Add this
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {

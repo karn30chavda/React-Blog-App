@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function Protected({ children, authentication = true }) {
-  const navigate = useNavigate();
-  const [loading, setloading] = useState(true);
-  const authStatus = useSelector((state) => state.auth.status);
+  const { status: authStatus, isAuthReady } = useSelector(
+    (state) => state.auth
+  );
 
-  useEffect(() => {
-    //  true && true !== true
-    //  true && false
-    // false (user is not logedin)
-    if (authentication && authStatus !== authentication) {
-      navigate("/login");
-    }
+  if (!isAuthReady) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0F0E17] text-white">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#c0e0b0]" />
+        <span className="ml-4 text-xl font-semibold">Loading Auth...</span>
+      </div>
+    );
+  }
 
-    // false && true !== true
-    // false && false
-    // true (user is logedin)
-    if (!authentication && authStatus !== authentication) {
-      navigate("/");
-    }
-    setloading(false);
-  }, [authStatus, authentication, navigate]);
+  if (authentication && !authStatus) {
+    return <Navigate to="/login" replace />;
+  }
 
-  return loading ? <h1>Loading...</h1> : <>{children}</>;
+  if (!authentication && authStatus) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 }
