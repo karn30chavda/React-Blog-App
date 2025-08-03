@@ -6,6 +6,7 @@ function HomeBlogCard({ $id, title, featuredimage, username, onReadMore }) {
 
   return (
     <div className="relative w-80 sm:w-80 flex flex-col rounded-2xl overflow-hidden shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 transition hover:scale-105 hover:shadow-3xl duration-300 min-h-[480px] sm:min-h-[420px]">
+
       {/* Image */}
       <div className="relative">
         {!imgLoaded && (

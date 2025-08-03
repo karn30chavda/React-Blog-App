@@ -99,10 +99,10 @@ function Home() {
                 <AnimatePresence initial={false}>
                   <motion.div
                     key={posts[current].$id}
-                    initial={{ opacity: 0, x: 100 }}
+                    initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -100 }}
-                    transition={{ duration: 0.6 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
                     <HomeBlogCard
                       {...posts[current]}
@@ -110,19 +110,6 @@ function Home() {
                     />
                   </motion.div>
                 </AnimatePresence>
-              </div>
-              {/* Navigation dots */}
-              <div className="flex justify-center gap-2 mt-4">
-                {posts.map((_, idx) => (
-                  <button
-                    key={idx}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      idx === current ? "bg-[#FFD803]" : "bg-gray-400"
-                    }`}
-                    onClick={() => setCurrent(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
               </div>
             </div>
           )}
