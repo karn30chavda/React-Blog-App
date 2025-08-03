@@ -7,6 +7,7 @@ import Button from "./Button";
 import Container from "./container/Container";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
+import HomeBlogCard from "./HomeBlog";
 import Input from "./Input";
 import Login from "./Login";
 import Logo from "./Logo";
@@ -17,21 +18,21 @@ import Select from "./Select";
 import Signup from "./Signup";
 
 export {
-  AllPostLoader,
-  Button,
-  Container,
-  Footer,
-  FormLoader,
-  Header,
-  HomeLoader,
-  Input,
-  Login,
-  Logo,
-  PostCard,
-  PostForm,
-  PostLoader,
-  Protected,
-  RTE,
-  Select,
-  Signup,
+    AllPostLoader,
+    Button,
+    Container,
+    Footer,
+    FormLoader,
+    Header, HomeBlogCard, HomeLoader,
+    Input,
+    Login,
+    Logo,
+    PostCard,
+    PostForm,
+    PostLoader,
+    Protected,
+    RTE,
+    Select,
+    Signup
 };
+

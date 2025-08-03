@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import service from "../appwrite/appwritedata";
 import { Container, HomeLoader } from "../components";
-import HomeBlogCard from "../components/HomeBlog"; // <-- Import your card
+import HomeBlogCard from "../components/HomeBlog";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -102,7 +102,7 @@ function Home() {
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                   >
                     <HomeBlogCard
                       {...posts[current]}
