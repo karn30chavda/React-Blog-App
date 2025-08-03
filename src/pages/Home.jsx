@@ -96,13 +96,13 @@ function Home() {
                 </span>
               </h2>
               <div className="flex justify-center items-center min-h-[400px]">
-                <AnimatePresence initial={false}>
+                <AnimatePresence mode="wait">
                   <motion.div
                     key={posts[current].$id}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    initial={false}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                    style={{ willChange: "transform" }} // for smoother performance
                   >
                     <HomeBlogCard
                       {...posts[current]}
