@@ -63,7 +63,7 @@ function PostForm({ post }) {
   const submit = async (data) => {
     const finalData = {
       ...data,
-      slug: slug, // force slug to be synced
+      slug: slug,
     };
 
     if (post) {

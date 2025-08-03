@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Code2,
   Flame,
@@ -11,13 +11,15 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import service from "../appwrite/appwritedata";
-import { Container, HomeLoader, PostCard } from "../components";
 import { useNavigate } from "react-router-dom";
+import service from "../appwrite/appwritedata";
+import { Container, HomeLoader } from "../components";
+import HomeBlogCard from "../components/HomeBlog"; // <-- Import your card
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [current, setCurrent] = useState(0);
   const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
 
@@ -29,6 +31,15 @@ function Home() {
       setLoading(false);
     });
   }, []);
+
+  // Auto-play effect
+  useEffect(() => {
+    if (!authStatus || posts.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % posts.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [posts, authStatus]);
 
   return loading ? (
     <HomeLoader />
@@ -84,9 +95,33 @@ function Home() {
                   Featured Blogs
                 </span>
               </h2>
-              <div className="flex justify-center  items-center gap-6 flex-wrap">
-                {posts.map((post) => (
-                  <PostCard key={post.$id} {...post} />
+              <div className="flex justify-center items-center min-h-[400px]">
+                <AnimatePresence initial={false}>
+                  <motion.div
+                    key={posts[current].$id}
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <HomeBlogCard
+                      {...posts[current]}
+                      onReadMore={() => navigate(`/post/${posts[current].$id}`)}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              {/* Navigation dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {posts.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                      idx === current ? "bg-[#FFD803]" : "bg-gray-400"
+                    }`}
+                    onClick={() => setCurrent(idx)}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
                 ))}
               </div>
             </div>
